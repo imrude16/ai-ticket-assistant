@@ -1,13 +1,13 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Inngest } from "inngest";
+import { inngest } from "../inngest/client.inngest.js";
 
 import User from "../models/user.model.js";
 
 export const signup = async (req, res) => {
     const { email, password, skills = [] } = req.body;
     try {
-        const hashed = bcrypt.hash(password, 10);
+        const hashed = await bcrypt.hash(password, 10);
         const user = await User.create({ email, password: hashed, skills });
 
         //Fire Inngest event
@@ -26,6 +26,17 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
+
+    // Hardcoded admin login for testing
+    if (email === "admin@admin.com" && password === "admin123") {
+        const adminUser = { 
+            _id: "hardcoded_admin_id", 
+            email: "admin@admin.com", 
+            role: "admin" 
+        };
+        const token = jwt.sign({ _id: "hardcoded_admin_id", role: "admin" }, process.env.JWT_SECRET);
+        return res.json({ user: adminUser, token });
+    }
 
     try {
         const user = await User.findOne({ email })

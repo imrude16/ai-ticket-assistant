@@ -74,6 +74,10 @@ export default function LoginPage() {
               {loading ? "Logging in..." : "Login"}
             </button>
           </div>
+          <div className="text-center mt-4 text-sm text-gray-500">
+            <p className="mb-1">Test Admin:</p>
+            <p>admin@admin.com / admin123</p>
+          </div>
         </form>
       </div>
     </div>
