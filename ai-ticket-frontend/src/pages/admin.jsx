@@ -11,7 +11,7 @@ export default function AdminPanel() {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  });
 
   const fetchUsers = async () => {
     try {
@@ -43,7 +43,7 @@ export default function AdminPanel() {
   const handleUpdate = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/auth/update-user`,
+        `${import.meta.env.VITE_SERVER_URL}/api/auth/update-user`,
         {
           method: "POST",
           headers: {
